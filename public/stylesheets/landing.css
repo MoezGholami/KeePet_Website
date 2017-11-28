@@ -1,0 +1,9 @@
+body {
+	background: url("http://sites.psu.edu/siowfa15/wp-content/uploads/sites/29639/2015/10/cat.jpg");
+	background-size: cover;
+}
+
+#jumbo {
+	margin:  100px 100px;
+	background: rgba(252, 195, 25, 0.7); 
+}

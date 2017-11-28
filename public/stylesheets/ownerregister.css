@@ -1,0 +1,42 @@
+#subtitle {
+	margin-top: 33px;
+}
+
+#title {
+	background-color: rgb(252, 195, 25);
+	margin-left: 0; 
+	margin-right: 0; 
+}
+
+#bar {
+	background-color: rgb(252, 195, 25);
+}
+
+#KeePet {
+	padding-left: 25px;
+}
+
+#breedinput {
+    width: 600px;
+}
+
+.caption {
+	padding-bottom: 0;
+	padding-top: 0;
+}
+
+.moreinfo {
+	margin-left: 8px;
+}
+
+#input1 {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	width: 400px;
+}
+
+#input2 {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	width: 400px;
+}

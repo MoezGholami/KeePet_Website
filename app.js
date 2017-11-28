@@ -4,9 +4,14 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var mongoose = require("mongoose");
+var passport = require("passport");
+var LocalStrategy = require("passport-local");
+var OwnerUser = require("./models/owneruser");
 
 var index = require('./routes/index');
 var users = require('./routes/users');
+var owner = require('./routes/owner');
 
 var app = express();
 
@@ -22,8 +27,26 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+//passport config
+app.use(require("express-session")({
+	secret: "I watch Rick and Morty because I'm smart.",
+	resave: false,
+	saveUninitialized: false
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(OwnerUser.authenticate()));
+passport.serializeUser(OwnerUser.serializeUser());
+passport.deserializeUser(OwnerUser.deserializeUser());
+
+//connect to mongod server
+var url = 'mongodb://localhost:27017/test';
+mongoose.connect(url);
+
 app.use('/', index);
 app.use('/users', users);
+app.use('/owner', owner);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -41,6 +64,10 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+
+app.listen(3000, "127.0.0.1", function() {
+	console.log("launch success");
 });
 
 module.exports = app;
