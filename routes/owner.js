@@ -4,7 +4,7 @@ var assert = require('assert');
 var bodyParser = require('body-parser');
 var mongoose = require("mongoose");	
 var passport = require("passport");
-var OwnerUser = require("../models/owneruser");
+var User = require("../models/user");
 
 
 //this is test post data
@@ -59,15 +59,15 @@ router.post('/', function(req, res, next) {
 });
 
 router.get('/register', function(req, res, next) {
-	res.render('ownerregister');
+	res.render('register');
 })
 
 router.post('/register', function(req, res, next) {
-	var newUser = new OwnerUser({username: req.body.username});
-	OwnerUser.register(newUser, req.body.password, function(err, user) {
+	var newUser = new User({username: req.body.username});
+	User.register(newUser, req.body.password, function(err, user) {
 		if(err) {
 			console.log(err);
-			return res.render('ownerregister');
+			return res.render('register');
 		} else {
 			passport.authenticate("local")(req, res, function() {
 				res.redirect('/owner');
@@ -77,7 +77,7 @@ router.post('/register', function(req, res, next) {
 });
 
 router.get('/login', function(req, res, next) {
-	res.render('ownerlogin');
+	res.render('login');
 });
 
 router.post('/login', passport.authenticate("local", 
@@ -101,7 +101,7 @@ function isLoggedIn(req, res, next) {
 }
 
 router.get('/manage', isLoggedIn, function(req, res, next) {
-	res.render('ownermanage');
+	res.render('manage');
 })
 
 

@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 var mongoose = require("mongoose");
 var passport = require("passport");
 var LocalStrategy = require("passport-local");
-var OwnerUser = require("./models/owneruser");
+var User = require("./models/user");
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -36,9 +36,9 @@ app.use(require("express-session")({
 
 app.use(passport.initialize());
 app.use(passport.session());
-passport.use(new LocalStrategy(OwnerUser.authenticate()));
-passport.serializeUser(OwnerUser.serializeUser());
-passport.deserializeUser(OwnerUser.deserializeUser());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 //connect to mongod server
 var url = 'mongodb://localhost:27017/test';
