@@ -1,3 +1,4 @@
+require('dotenv').config()
 const appRoot = require('app-root-path');
 var express = require('express');
 var path = require('path');
@@ -30,7 +31,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //passport config
 app.use(require("express-session")({
-	secret: "I watch Rick and Morty because I'm smart.",
+	secret: process.env.EXPRESS_SESSIONS_SECRET,
 	resave: false,
 	saveUninitialized: false
 }));
@@ -42,7 +43,7 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 //connect to mongod server
-var url = 'mongodb://localhost:27017/test';
+var url = 'mongodb://'+process.env.DB_HOST+':'+process.env.DB_PORT+'/'+process.env.DB_NAME;
 mongoose.connect(url);
 
 app.use('/', index);

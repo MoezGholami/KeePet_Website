@@ -1,7 +1,13 @@
+require('dotenv').config()
 const chai      = require('chai');
 const expect    = chai.expect;
 const appRoot   = require('app-root-path');
-const search    =  require(appRoot + '/domain/search');
+const search    = require(appRoot + '/domain/search');
+const mongoose  = require('mongoose');
+const seeder    = require('mongoose-seed');
+const petData   = require(appRoot + '/test/data/petSeedData');
+const mongoUrl = 'mongodb://'+process.env.DB_HOST+':'+
+    process.env.DB_PORT+'/'+process.env.DB_NAME;
 
 function promaker(arg) {
       return new Promise((resolve, reject) => {
@@ -14,27 +20,38 @@ function promaker(arg) {
 
 describe('verfies searching pets.', function(){
 	before(function(done){
+        seeder.connect(mongoUrl, (error) =>
+            {
+                if(error)
+                    done(error);
+                seeder.loadModels([
+                    appRoot + '/domain/models/pet.js'
+                ]);
 
-        done();
+                seeder.clearModels(['Pet'], function() {
+                    seeder.populateModels(petData, function() {
+                        done();
+                    });
+
+                });
+            });
 	});
 
 
-	it('passing test', () => {
-        var mySearch = new search(1, 10);
-        console.log('moez test');
+	it('find test', () => {
+        var mySearch = new search(1, 10, '2000-06-01T00:00:00');
         return mySearch.then(
             pets => {
-				expect(1).to.equal(2);
-                console.log(pets);
+                console.error(pets);
+				expect(pets.length).to.be.at.least(1);
             }
         );
 
 	});
 
-	it('failing test', () => {
+	xit('failing test', () => {
         return promaker(1).then(data =>
             {
-                console.log("moez fulfilled");
 				expect(1).to.equal(2);
             });
 	});

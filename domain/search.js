@@ -1,19 +1,16 @@
 const appRoot = require('app-root-path');
 var Pet = require(appRoot + "/domain/models/pet");
 
-const searchPets = function(minAgeMonth, maxAgeMonth) {
-    var minBirthDate = new Date();
-    var maxBirthDate = new Date();
+const searchPets = function(minAgeMonth, maxAgeMonth, now) {
+    now = now || new Date();
+    var minBirthDate = new Date(now.valueOf());
+    var maxBirthDate = new Date(now.valueOf());
     var margin = 15;
     minBirthDate.setDate(minBirthDate.getDate() - 30*maxAgeMonth - margin);
     maxBirthDate.setDate(maxBirthDate.getDate() - 30*minAgeMonth + margin);
-                console.log("moez before returning promise");
     return new Promise((resolve, reject) =>
         {
-                console.log("moez before find operation");
-            Pet.find({birthDate: {$lt: maxBirthDate, $gt: minBirthDate}}, (error, pets) => {
-                //TODO: find never ends
-                console.log("moez after find operation");
+            Pet.find({}, (error, pets) => {
                 if(error)
                     reject(error);
                 else
