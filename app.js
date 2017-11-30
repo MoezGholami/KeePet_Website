@@ -1,3 +1,4 @@
+const appRoot = require('app-root-path');
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -7,11 +8,11 @@ var bodyParser = require('body-parser');
 var mongoose = require("mongoose");
 var passport = require("passport");
 var LocalStrategy = require("passport-local");
-var User = require("./models/user");
+var User = require(appRoot + "/domain/models/user");
 
-var index = require('./routes/index');
-var users = require('./routes/users');
-var owner = require('./routes/owner');
+var index = require(appRoot + '/routes/index');
+var users = require(appRoot + '/routes/users');
+var owner = require(appRoot + '/routes/owner');
 
 var app = express();
 
