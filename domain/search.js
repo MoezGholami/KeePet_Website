@@ -20,13 +20,4 @@ const searchPets = function(minAgeMonth, maxAgeMonth, now) {
     );
 };
 
-function promaker(arg) {
-      return new Promise((resolve, reject) => {
-          if(arg==0)
-              reject("not zero");
-          else
-              resolve(arg*2);
-            });
-}
-
 module.exports = searchPets;
