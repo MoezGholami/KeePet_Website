@@ -1,4 +1,5 @@
 require('dotenv').config()
+const nodemailer = require('nodemailer');
 const appRoot = require('app-root-path');
 var express = require('express');
 var path = require('path');
@@ -16,6 +17,8 @@ var users = require(appRoot + '/routes/users');
 var owner = require(appRoot + '/routes/owner');
 
 var app = express();
+
+var mail = require(appRoot + '/mailer');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -56,6 +59,13 @@ app.use(function(req, res, next) {
   err.status = 404;
   next(err);
 });
+
+////////////////
+//test email send
+
+var newMail = new mail();
+
+////////////////
 
 // error handler
 app.use(function(err, req, res, next) {

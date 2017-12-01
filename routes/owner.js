@@ -1,10 +1,11 @@
 var express = require('express');
+const appRoot = require('app-root-path');
 var router = express.Router();	
 var assert = require('assert');
 var bodyParser = require('body-parser');
 var mongoose = require("mongoose");	
 var passport = require("passport");
-var User = require("../models/user");
+var User = require(appRoot + "/domain/models/user");
 
 
 //this is test post data
