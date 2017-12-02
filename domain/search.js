@@ -1,5 +1,5 @@
 const appRoot = require('app-root-path');
-var Pet = require(appRoot + "/domain/models/pet");
+var Pet = require(appRoot + "/domain/models/pet").basePet;
 
 const searchPets = function(minAgeMonth, maxAgeMonth, now) {
     now = now || new Date();

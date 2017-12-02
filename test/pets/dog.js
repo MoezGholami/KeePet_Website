@@ -25,10 +25,10 @@ describe('verfies searching pets.', function(){
                 if(error)
                     done(error);
                 seeder.loadModels([
-                    appRoot + '/domain/models/pet.js'
+                    appRoot + '/domain/models/pet/mammal/dog.js'
                 ]);
 
-                seeder.clearModels(['Pet'], function() {
+                seeder.clearModels(['Dog'], function() {
                     seeder.populateModels(petData, function() {
                         done();
                     });
