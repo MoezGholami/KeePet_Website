@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>KeePet</title>
-    <link rel='stylesheet' href='/stylesheets/ownerregister.css' />
+    <link rel='stylesheet' href='/stylesheets/register.css' />
     <script
       src="https://code.jquery.com/jquery-3.2.1.min.js"
       integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
@@ -27,13 +27,18 @@
       </table>
     </div>
 
-    <div class="container">
-      <h3>Login to your KeePet owner account</h3>
-      <form action="/owner/login" method="POST">
-          <input class="form-control" type="text" name="username" placeholder="username" id="input1"></input>
-          <input class="form-control" type="password" name="password" placeholder="password" id="input2"></input>
-          <button class="btn btn-primary">Login</button>
-      </form>
+
+    <div class="container" id="jumbotroncontainer">
+      <div class="jumbotron">
+        <div class="container" id="center">
+          <h3>Login to your KeePet owner account</h3>
+          <form action="/owner/login" method="POST">
+              <input class="form-control" type="text" name="username" placeholder="username" id="input1"></input>
+              <input class="form-control" type="password" name="password" placeholder="password" id="input2"></input>
+              <button class="btn btn-primary btn-lg">Login</button>
+          </form>
+        </div>
+      </div>
     </div>
 
 
