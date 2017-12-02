@@ -8,13 +8,8 @@ const User 			= require(appRoot + "/domain/models/user");
 const middleware 	= require(appRoot + "/middleware/index"); 
 
 router.get('/:id', middleware.checkLoggedIn, function(req, res, next) {
-	User.findById(req.params.id, (err, foundUser) => {
-		if(err) {
-			console.log(err);
-		} else {
-			res.render('manage', {firstname: foundUser.firstName, lastname: foundUser.lastName});
-		}
-	});
+    console.log(req.user);
+    res.render('manage', {firstname: req.user.firstName, lastname: req.user.lastName});
 })
 
 module.exports = router;
