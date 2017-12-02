@@ -64,7 +64,13 @@ router.get('/register', function(req, res, next) {
 })
 
 router.post('/register', function(req, res, next) {
-	var newUser = new User({username: req.body.username});
+	var newUser = new User({
+		username: req.body.username, 
+		email: req.body.email,
+		firstName: req.body.firstname,
+		lastName: req.body.lastname
+	});
+
 	User.register(newUser, req.body.password, function(err, user) {
 		if(err) {
 			console.log(err);
@@ -94,16 +100,6 @@ router.get('/logout', function(req, res, next) {
 	res.redirect('/owner');
 });
 
-function isLoggedIn(req, res, next) {
-	if(req.isAuthenticated()) {
-		return next();
-	}
-	res.redirect('/owner/login');
-}
-
-router.get('/manage', isLoggedIn, function(req, res, next) {
-	res.render('manage');
-})
 
 
 module.exports = router;

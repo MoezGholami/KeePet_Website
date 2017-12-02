@@ -1,20 +1,21 @@
 require('dotenv').config()
-const nodemailer = require('nodemailer');
-const appRoot = require('app-root-path');
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var mongoose = require("mongoose");
-var passport = require("passport");
+const nodemailer  = require('nodemailer');
+const appRoot     = require('app-root-path');
+var express       = require('express');
+var path          = require('path');
+var favicon       = require('serve-favicon');
+var logger        = require('morgan');
+var cookieParser  = require('cookie-parser');
+var bodyParser    = require('body-parser');
+var mongoose      = require("mongoose");
+var passport      = require("passport");
 var LocalStrategy = require("passport-local");
-var User = require(appRoot + "/domain/models/user");
+var User          = require(appRoot + "/domain/models/user");
 
-var index = require(appRoot + '/routes/index');
-var users = require(appRoot + '/routes/users');
-var owner = require(appRoot + '/routes/owner');
+var index   = require(appRoot + '/routes/index');
+var users   = require(appRoot + '/routes/users');
+var owner   = require(appRoot + '/routes/owner');
+var manage  = require(appRoot + '/routes/manage');
 
 var app = express();
 
@@ -52,6 +53,7 @@ mongoose.connect(url);
 app.use('/', index);
 app.use('/users', users);
 app.use('/owner', owner);
+app.use('/manage', manage);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -63,7 +65,7 @@ app.use(function(req, res, next) {
 ////////////////
 //test email send
 
-var newMail = new mail();
+//var newMail = new mail();
 
 ////////////////
 

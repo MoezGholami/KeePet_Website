@@ -10,15 +10,15 @@ const mail = function() {
 	        port: 465,
 	        secure: true, // true for 465, false for other ports
 	        auth: {
-	            user: 'keepetsender@gmail.com', // generated ethereal user
-	            pass: '83024598'  // generated ethereal password
+	            user: process.env.EMAIL_ADDRESS, // generated ethereal user
+	            pass: process.env.EMAIL_PASSWORD  // generated ethereal password
 	        }
 	    });
 
 	    // setup email data with unicode symbols
 	    let mailOptions = {
 	        from: '"Test Email 👻" <mingzongzz@gmail.com>', // sender address
-	        to: 'a_moez@utexas.edu', // list of receivers
+	        to: 'mzong@utexas.edu', // list of receivers
 	        subject: 'Hello ✔', // Subject line
 	        text: 'Hello world?', // plain text body
 	        html: '<b>This is a test?</b>' // html body

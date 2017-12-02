@@ -32,11 +32,59 @@
 #input1 {
 	margin-top: 10px;
 	margin-bottom: 10px;
-	width: 400px;
+	margin-left: auto;
+	margin-right: auto;
+	width: 80%;
 }
 
 #input2 {
 	margin-top: 10px;
 	margin-bottom: 10px;
-	width: 400px;
+	margin-left: auto;
+	margin-right: auto;
+	width: 80%;
 }
+
+#input3 {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-left: auto;
+	margin-right: auto;
+	width: 80%;
+}
+
+#input4 {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-left: auto;
+	margin-right: auto;
+	width: 80%;
+}
+
+#input5 {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-left: auto;
+	margin-right: auto;
+	width: 80%;
+}
+
+#center {
+	text-align: center;
+}
+
+#title3 {
+	text-align: center;
+	margin-bottom: 30px;
+}
+
+button {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#jumbotroncontainer {
+	width: 50%;
+	margin-top: 30px;
+}
+

@@ -52,7 +52,7 @@
             <li><a href="/owner/register">Register</a></li>
             <li><a href="/owner/login">Login</a></li>
           <% } else { %>
-            <li><a href="/owner/manage">Manage account</a></li>
+            <li><a href="/manage/<%= currentUser._id %>">Manage account</a></li>
             <li><a href="/owner/logout">Logout</a></li>
           <% } %>
         </ul>

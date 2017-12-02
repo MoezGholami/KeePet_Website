@@ -27,13 +27,20 @@
       </table>
     </div>
 
-    <div class="container">
-      <h3>Create your KeePet owner account</h3>
-      <form action="/owner/register" method="POST">
-          <input class="form-control" type="text" name="username" placeholder="username" id="input1"></input>
-          <input class="form-control" type="password" name="password" placeholder="password" id="input2"></input>
-          <button class="btn btn-primary">Sign Up</button>
-      </form>
+    <div class="container" id="jumbotroncontainer">
+      <div class="jumbotron">
+        <div class="container" id="center">
+          <h3 id="title3">Create your KeePet account</h3>
+          <form action="/owner/register" method="POST">
+              <input class="form-control" type="text" name="username" placeholder="username" id="input1"></input>
+              <input class="form-control" type="password" name="password" placeholder="password" id="input2"></input>
+              <input class="form-control" type="text" name="email" placeholder="Email Address" id="input3"></input>
+              <input class="form-control" type="text" name="firstname" placeholder="First Name" id="input4"></input>
+              <input class="form-control" type="text" name="lastname" placeholder="Last Name" id="input5"></input>
+              <button class="btn btn-primary btn-lg">Sign Up</button>
+          </form>
+        </div>
+      </div>
     </div>
 
 
