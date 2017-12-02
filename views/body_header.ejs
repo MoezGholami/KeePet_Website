@@ -1,18 +1,4 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>KeePet</title>
-    <link rel='stylesheet' href='/stylesheets/owner.css' />
-    <script
-      src="https://code.jquery.com/jquery-3.2.1.min.js"
-      integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-      crossorigin="anonymous">
-    </script>
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>
-  </head>
-  <body>
-    
     <div class="row" id="title">
       <table id="owned_streams" class="table">
         <tr>
@@ -58,25 +44,3 @@
         </ul>
       </div>
     </nav>
-
-    <div class="container">
-      <div class="row" style="display:flex; flex-wrap: wrap;">
-        <% allKeeperPosts.forEach(function(post) { %>
-          <div class="col-md-3 col-sm-6">
-            <div class="thumbnail">
-              <img src="<%= post.image %>" >
-              <div class="caption">
-                <h4><%= post.name %></h4>
-              </div>
-              <p>
-                  <a href="#" class="btn btn-success btn-sm moreinfo">More Info</a>
-              </p>
-            </div>
-          </div>
-        <% }); %>
-      </div>
-    </div>
-
-
-  </body>
-</html>

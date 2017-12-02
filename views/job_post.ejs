@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <%- include head_commons.ejs %>      
+        <link rel="stylesheet" href="../stylesheets/date_picker.css">
+    </head>
+    <body>
+
+        <%- include body_header.ejs %>      
+
+        <div class="container">
+            <form>
+                <input type="checkbox" name="vehicle" value="Bike"/> I have a bike<br>
+                <hr/>
+                <input type="checkbox" name="vehicle" value="Car" checked="checked"/> I have a car<br>
+                <input type="text" name="start_date" id="start_date" value="" hidden/>
+                <input type="text" name="end_date" id="end_date" value="" hidden/>
+                <%- include date_picker.ejs %>      
+            </form>
+        </div>
+
+
+    </body>
+</html>

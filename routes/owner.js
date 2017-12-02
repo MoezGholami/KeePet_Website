@@ -49,57 +49,12 @@ var allKeeperPosts = [
 
 ];
 
-/* GET home page. */
-
 router.get('/', function(req, res, next) {
 	res.render('owner', {allKeeperPosts: allKeeperPosts, currentUser: req.user});
 });
 
-router.post('/', function(req, res, next) {
-	res.render('owner', {allKeeperPosts: allKeeperPosts});
+router.get('/new_job_post', (req, res, next) => {
+	res.render('job_post', {allKeeperPosts: allKeeperPosts, currentUser: req.user, title: 'New Job Post'});
 });
-
-router.get('/register', function(req, res, next) {
-	res.render('register');
-})
-
-router.post('/register', function(req, res, next) {
-	var newUser = new User({
-		username: req.body.username, 
-		email: req.body.email,
-		firstName: req.body.firstname,
-		lastName: req.body.lastname
-	});
-
-	User.register(newUser, req.body.password, function(err, user) {
-		if(err) {
-			console.log(err);
-			return res.render('register');
-		} else {
-			passport.authenticate("local")(req, res, function() {
-				res.redirect('/owner');
-			});
-		}
-	});
-});
-
-router.get('/login', function(req, res, next) {
-	res.render('login');
-});
-
-router.post('/login', passport.authenticate("local", 
-	{
-		successRedirect: "/owner",
-		failureRedirect: "/owner/login"
-	}), function(req, res, next) {
-		res.send("login logic");
-});
-
-router.get('/logout', function(req, res, next) {
-	req.logout();
-	res.redirect('/owner');
-});
-
-
 
 module.exports = router;
