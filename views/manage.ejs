@@ -1,1 +1,42 @@
-<h3>Welcome <%= firstname %> <%= lastname %>!</h3>
+<!DOCTYPE html>
+<html>
+    <head>
+        <%- include head_commons.ejs %>      
+        <link rel="stylesheet" href="../stylesheets/manage.css">
+    </head>
+    <body>
+
+        <%- include body_header.ejs %> 
+		
+		<div class="container" id="mainContent">
+			<h3>Manage your account</h3>
+			<hr/>
+			<div class="row listContent">
+				<div class="col-md-6 col-sm-12">
+					<h4>First Name</h4>
+					<div><%= currentUser.firstName %></div>
+				</div>
+				<div class="col-md-6 col-sm-12">
+					<h4>Last Name</h4>
+					<div><%= currentUser.lastName %></div>
+				</div>
+			</div>
+			<div class="listContent">
+				<h4>Email</h4>
+				<div><%= currentUser.email %></div>
+			</div>
+			<div class="listContent">
+				<h4>Bio</h4>
+				<% if(currentUser.description === "") { %>
+					<div>Your haven't added your bio</div>
+				<% } else { %>
+					<div><%= currentUser.description %></div>
+				<% } %>
+			</div>
+			<hr/>
+			<a href="/manage/edit">Edit your profile</a>
+		</div>
+        
+    </body>
+</html>
+
