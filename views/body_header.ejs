@@ -36,9 +36,9 @@
         <ul class="nav navbar-nav navbar-right">
           <% if(!currentUser) { %>
             <li><a href="/register">Register</a></li>
-            <li><a href="/login">Login</a></li>
+            <li><a href="/auth/google">Login</a></li>
           <% } else { %>
-            <li><a href="/manage/<%= currentUser._id %>">Manage account</a></li>
+            <li><a href="/manage">Manage account</a></li>
             <li><a href="/logout">Logout</a></li>
           <% } %>
         </ul>

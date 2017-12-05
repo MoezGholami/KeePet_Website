@@ -6,6 +6,8 @@ const bodyParser 	= require('body-parser');
 const mongoose 		= require("mongoose");	
 const User 			= require(appRoot + "/domain/models/user");
 const middleware 	= require(appRoot + "/middleware/index"); 
+const multer 		= require('multer');
+const upload 		= multer({limits: {fileSize: 2000000 },dest:'uploads/'})
 
 router.get('/', middleware.checkLoggedIn, function(req, res, next) {
     res.render('manage', {

@@ -10,7 +10,7 @@
 		
 		<div class="container" id="mainContent">
 			<form action="/manage/edit" method="POST" id="main_form">
-				<input name="myImage" type="file" value="upload your profile photo">
+				<input name="myImage" type="file">
 				<h3>Edit your profile</h3>
 				<hr/>
 				<div class="row listContent">
@@ -33,7 +33,7 @@
 				<div class="listContent">
 					<h4>Bio</h4>
 					<textarea name="description" id="area1" cols="60" rows="10" 
-					form="main_form" value="<%= currentUser.description %>"></textarea>
+					form="main_form"><%= currentUser.description %></textarea>
 				</div>
 				
 				<input type="submit" class="btn btn-primary" value="Save">
