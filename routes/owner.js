@@ -34,4 +34,42 @@ router.post('/new_job_post_upload', middleware.checkLoggedIn, (req, res, next) =
     });
 });
 
+var post = {
+    animals: [
+        {
+            type: 'Dog',
+            name: 'Joe',
+            breed: 'Husky',
+            sex: 'male',
+            age_month: '34'
+        },
+        {
+            type: 'Dog',
+            name: 'Jeni',
+            breed: 'Husky',
+            sex: 'female',
+            age_month: '30'
+        }
+    ],
+    from: '2017-11-06T22:31:54.466Z',
+    to: '2017-12-06T22:31:54.466Z',
+    description: 'some description',
+    options: [
+        'opt1', 'opt2', 'opt4'
+    ]
+};
+var posts = [];
+for(var i=0; i<5; i++)
+    posts.push(post);
+
+router.get('/all_job_posts', (req, res, next) => {
+    res.setHeader('Content-Type', 'application/json');
+    res.send(JSON.stringify(posts));
+});
+
+router.post('/all_job_posts', middleware.checkLoggedIn, (req, res, next) => {
+    res.setHeader('Content-Type', 'application/json');
+    res.send(JSON.stringify(posts));
+});
+
 module.exports = router;
