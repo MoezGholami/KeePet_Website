@@ -7,37 +7,56 @@ const mongoose 		= require("mongoose");
 const User 			= require(appRoot + "/domain/models/user");
 const middleware 	= require(appRoot + "/middleware/index"); 
 const multer 		= require('multer');
-const upload 		= multer({limits: {fileSize: 2000000 },dest:'uploads/'})
+const upload 		= multer({limits: {fileSize: 2000000 },dest:'uploads/'});
+const GUser         = require(appRoot + "/domain/models/gUser");
+
 
 router.get('/', middleware.checkLoggedIn, function(req, res, next) {
-    res.render('manage', {
-    	currentUser: req.user,
-    	title: 'Manage'
+	GUser.findOne({id: req.user.id}, (err, existUser) => {
+        if(err) {
+          console.log(err);
+        } else {
+		    res.render('manage', {
+		    	currentUser: existUser,
+		    	title: 'Manage'
+		    });
+        }
     });
-})
+});
 
 router.get('/edit', middleware.checkLoggedIn, function(req, res, next) {
-    res.render('manage_edit', {
-    	currentUser: req.user,
-    	title: 'Profile Edit'
+	GUser.findOne({id: req.user.id}, (err, existUser) => {
+        if(err) {
+          console.log(err);
+        } else {
+		    res.render('manage_edit', {
+		    	currentUser: existUser,
+		    	title: 'Profile Edit'
+		    });
+        }
     });
-})
+});
 
 router.post('/edit', middleware.checkLoggedIn, function(req, res, next) {
-	User.findByIdAndUpdate(req.user._id, {
-		firstName: req.body.firstName,
-		lastName: req.body.lastName,
-		email: req.body.email,
-		description: req.body.description
-	}, (err, updatedUser) => {
-		if(err) {
-			res.redirect('/manage/edit');
-		} else {
-			console.log(updatedUser);
-			res.redirect('/manage');
-		}
-	})
-    
-})
+	GUser.findOne({id: req.user.id}, (err, existUser) => {
+        if(err) {
+          console.log(err);
+        } else {
+			GUser.findByIdAndUpdate(existUser._id, {
+				firstName: req.body.firstName,
+				lastName: req.body.lastName,
+				email: req.body.email,
+				description: req.body.description
+			}, (err, updatedUser) => {
+				if(err) {
+					res.redirect('/manage/edit');
+				} else {
+					console.log(updatedUser);
+					res.redirect('/manage');
+				}
+			});
+        }
+    });
+});
 
 module.exports = router;
