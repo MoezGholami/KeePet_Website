@@ -1,12 +1,16 @@
 var mongoose = require("mongoose");
+const appRoot   = require('app-root-path');
+const Pet       = require(appRoot + '/domain/models/pet');
 
 var JobPostSchema = new mongoose.Schema({
     start_date: Date,
     end_date:   Date,
     description: String,
     addOns:     [String],
+    latitude: Number,
+    longitude: Number,
     owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-    pets: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Pet' }]
+    pets: [{ type: mongoose.Schema.Types.ObjectId, ref: Pet.modelName }]
 });
 var JobPost = mongoose.model("JobPost", JobPostSchema);
 

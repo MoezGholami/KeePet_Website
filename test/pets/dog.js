@@ -2,10 +2,10 @@ require('dotenv').config()
 const chai      = require('chai');
 const expect    = chai.expect;
 const appRoot   = require('app-root-path');
-const search    = require(appRoot + '/domain/search');
 const mongoose  = require('mongoose');
 const seeder    = require('mongoose-seed');
 const petData   = require(appRoot + '/test/data/petSeedData');
+const Pet       = require(appRoot + '/domain/models/pet');
 const mongoUrl = 'mongodb://'+process.env.DB_HOST+':'+
     process.env.DB_PORT+'/'+process.env.DB_NAME;
 
@@ -39,14 +39,6 @@ describe('verfies searching pets.', function(){
 
 
 	it('find test', () => {
-        var mySearch = new search(1, 10, '2000-06-01T00:00:00');
-        return mySearch.then(
-            pets => {
-                console.error(pets);
-				expect(pets.length).to.be.at.least(1);
-            }
-        );
-
 	});
 
 	xit('failing test', () => {

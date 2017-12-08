@@ -7,6 +7,7 @@ const mongoose = require("mongoose");
 const passport = require("passport");
 const middleware 	= require(appRoot + "/middleware/index"); 
 const User = require(appRoot + "/domain/models/user");
+const Pet = require(appRoot + "/domain/models/pet");
 const JobPost = require(appRoot + "/domain/models/jobPost");
 
 
@@ -70,6 +71,35 @@ router.get('/all_job_posts', (req, res, next) => {
 router.post('/all_job_posts', middleware.checkLoggedIn, (req, res, next) => {
     res.setHeader('Content-Type', 'application/json');
     res.send(JSON.stringify(posts));
+});
+
+router.get('/pets', middleware.checkLoggedIn, (req, res, next) => {
+});
+
+router.post('/store_pet', middleware.checkLoggedIn, (req, res, next) => {
+    var params = req.body;
+    console.log('moez: modelname');
+    console.log(params);
+    var isApi = false || params.isApi;
+    params.owner = req.user._id;
+    var modelName = params.modelName;
+    Pet.storePet(modelName, params, (error, instance) => {
+        if(instance)
+            instance.owner = undefined;
+        if(error) {
+            res.setHeader('Content-Type', 'application/json');
+            res.status(403);
+            res.send(JSON.stringify(error));
+        }
+        else if(isApi) {
+            res.setHeader('Content-Type', 'application/json');
+            res.status(200);
+            res.send(JSON.stringify(instance));
+        }
+        else {
+            res.send({redirect: '/pets'});
+        }
+        });
 });
 
 module.exports = router;
