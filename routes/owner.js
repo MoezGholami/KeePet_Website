@@ -75,11 +75,57 @@ router.post('/all_job_posts', middleware.checkLoggedIn, (req, res, next) => {
 
 
 router.get('/view_pet/:id', middleware.checkLoggedIn, (req, res, next) => {
-    
+    Pet.basePet.findById(req.params.id, (err, foundPet) => {
+        if(err) {
+            console.log(err);
+        } else {
+            res.render('view_pet', {pet: foundPet, currentUser: req.user, title: 'Your Pets'});
+        }
+    });
 });
 
 router.get('/store_pet', middleware.checkLoggedIn, (req, res, next) => {
-    res.render('store_pet', {currentUser: req.user, title: 'Create a pet profile'})});
+    res.render('store_pet_select', {currentUser: req.user, title: 'Choose a pet'});
+});
+
+router.post('/store_pet', middleware.checkLoggedIn, (req, res, next) => {
+    var category = req.body.category;
+    Pet.getPetSchema(category, (error, schema) => {
+        if(error) {
+            res.setHeader('Content-Type', 'application/json');
+            res.status(403);
+            res.send(JSON.stringify(error));
+        } else {
+            res.render('store_pet', {category: category, schema: schema, currentUser: req.user, title: 'Create a pet profile'});
+        }
+    });
+});
+
+router.post('/post_pet', middleware.checkLoggedIn, (req, res, next) => {
+    var params = req.body;
+    console.log('moez: modelname');
+    console.log(params);
+    var isApi = false || params.isApi;
+    params.owner = req.user._id;
+    var modelName = params.modelName;
+    Pet.storePet(modelName, params, (error, instance) => {
+        if(instance)
+            instance.owner = undefined;
+        if(error) {
+            res.setHeader('Content-Type', 'application/json');
+            res.status(403);
+            res.send(JSON.stringify(error));
+        }
+        else if(isApi) {
+            res.setHeader('Content-Type', 'application/json');
+            res.status(200);
+            res.send(JSON.stringify(instance));
+        }
+        else {
+            res.redirect('/owner/view_pet/' + instance._id);
+        }
+    });
+});
 
 router.get('/owned_pets', middleware.checkLoggedIn, (req, res, next) => {
     var isApi = false || req.query.isApi;
@@ -101,31 +147,5 @@ router.get('/owned_pets', middleware.checkLoggedIn, (req, res, next) => {
     });
 });
 
-router.post('/store_pet', middleware.checkLoggedIn, (req, res, next) => {
-    var params = req.body;
-    console.log('moez: modelname');
-    console.log(params);
-    var isApi = false || params.isApi;
-    params.owner = req.user._id;
-    var modelName = params.modelName;
-    Pet.storePet(modelName, params, (error, instance) => {
-        if(instance)
-            instance.owner = undefined;
-        if(error) {
-            res.setHeader('Content-Type', 'application/json');
-            res.status(403);
-            res.send(JSON.stringify(error));
-        }
-        else if(isApi) {
-            res.setHeader('Content-Type', 'application/json');
-            res.status(200);
-            res.send(JSON.stringify(instance));
-        }
-        else {
-            console.log(instance._id);
-            res.render("this is a new pet")
-        }
-    });
-});
 
 module.exports = router;

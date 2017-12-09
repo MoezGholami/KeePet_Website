@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <%- include head_commons.ejs %>      
+        <link rel="stylesheet" href="../stylesheets/manage.css">
+    </head>
+    <body>
+
+        <%- include body_header.ejs %> 
+		
+		<div class="container" id="mainContent">
+			<form action="/owner/store_pet" method="POST" id="main_form">
+				<h3>Please insert your pet category</h3>
+				<div class="listContent">
+					<input type="text" class="form-control" name="category" 
+					placeholder="Dog">
+				</div>
+			</form>
+		</div>
+        
+    </body>
+</html>

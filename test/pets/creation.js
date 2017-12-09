@@ -10,7 +10,7 @@ const mongoUrl = 'mongodb://'+process.env.DB_HOST+':'+
 describe('verfies searching pets.', function(){
 
 	it('get schema', () => {
-        Pet.getPetSchema('Cat', (error, fields) => {
+        Pet.getPetSchema('Snake', (error, fields) => {
             console.log(fields);
         });
 	});
