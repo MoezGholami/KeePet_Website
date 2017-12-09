@@ -73,7 +73,24 @@ router.post('/all_job_posts', middleware.checkLoggedIn, (req, res, next) => {
     res.send(JSON.stringify(posts));
 });
 
-router.get('/pets', middleware.checkLoggedIn, (req, res, next) => {
+router.get('/owned_pets', middleware.checkLoggedIn, (req, res, next) => {
+    var isApi = false || req.query.isApi;
+    req.user.getAllPets((pets, error)=>{
+        if(error)
+        {
+            res.setHeader('Content-Type', 'application/json');
+            res.status(403);
+            res.send(JSON.stringify(error));
+        }
+        else if(isApi) {
+            res.setHeader('Content-Type', 'application/json');
+            res.status(200);
+            res.send(JSON.stringify(pets));
+        }
+        else {
+            res.send({redirect: '/pets'});
+        }
+    });
 });
 
 router.post('/store_pet', middleware.checkLoggedIn, (req, res, next) => {

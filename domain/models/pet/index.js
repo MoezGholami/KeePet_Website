@@ -25,6 +25,19 @@ var storePet = function(modelName, params, callback) {
         callback('not recognized pet name', null);
     model.create(params, callback);
 };
+
+var getPetSchema = function(modelName, callback) {
+    var model = nameDictionary[modelName];
+    if(model == undefined)
+        callback('not recognized pet name', null);
+    var result=[]
+    for(var k in model.schema.paths)
+        if(k!='__v' && k!='_id' && k!='owner' && k!='type')
+            result.push({name: k, type: model.schema.paths[k].instance});
+    callback(null, result);
+};
+
 pet.storePet = storePet;
+pet.getPetSchema = getPetSchema;
 
 module.exports = pet;

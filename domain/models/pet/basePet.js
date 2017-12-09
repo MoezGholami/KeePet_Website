@@ -7,7 +7,6 @@ var petSchema = new mongoose.Schema({
     age_month: Number,
     sex: String,
     description: String,
-    quantity: { type: Number, default: 1 },
     owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
 }, options);
 var Pet = mongoose.model("Pet", petSchema);
