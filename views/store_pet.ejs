@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <%- include head_commons.ejs %>      
+        <link rel="stylesheet" href="../stylesheets/manage.css">
+    </head>
+    <body>
+
+        <%- include body_header.ejs %> 
+		
+		<div class="container" id="mainContent">
+			<form action="/owner/store_pet" method="POST" id="main_form">
+				<h3>Create your pet's profile</h3>
+				<hr/>
+				<div class="listContent">
+					<h4>Name</h4>
+					<input type="text" class="form-control" name="name" 
+					placeholder="Joe">
+				</div>
+				<div class="listContent">
+					<h4>Category</h4>
+					<input type="text" class="form-control" name="modelName" 
+					placeholder="Cat">
+				</div>
+				<div class="listContent">
+					<h4>Sex</h4>
+					<input type="text" class="form-control" name="sex" 
+					placeholder="Male">
+				</div>
+				<div class="listContent">
+					<h4>Age(in month)</h4>
+					<input type="number" class="form-control" name="age_month" 
+					placeholder="10">
+				</div>
+				<div class="listContent">
+					<h4>Breed Name</h4>
+					<input type="text" class="form-control" name="breedName" 
+					placeholder="Husky">
+				</div>
+				<div class="listContent">
+					<h4>Description</h4>
+					<textarea name="description" id="area1" cols="60" rows="10" 
+					form="main_form"></textarea>
+				</div>
+				
+				<input type="submit" class="btn btn-primary" value="Save">
+			</form>
+		</div>
+        
+    </body>
+</html>

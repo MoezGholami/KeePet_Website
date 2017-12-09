@@ -73,7 +73,12 @@ router.post('/all_job_posts', middleware.checkLoggedIn, (req, res, next) => {
     res.send(JSON.stringify(posts));
 });
 
-router.get('/pets', middleware.checkLoggedIn, (req, res, next) => {
+router.get('/owned_pets/:id', middleware.checkLoggedIn, (req, res, next) => {
+    
+});
+
+router.get('/store_pet', middleware.checkLoggedIn, (req, res, next) => {
+    res.render('store_pet', {currentUser: req.user, title: 'Create a pet profile'});
 });
 
 router.post('/store_pet', middleware.checkLoggedIn, (req, res, next) => {
@@ -97,9 +102,10 @@ router.post('/store_pet', middleware.checkLoggedIn, (req, res, next) => {
             res.send(JSON.stringify(instance));
         }
         else {
-            res.send({redirect: '/pets'});
+            console.log(instance._id);
+            res.render("this is a new pet")
         }
-        });
+    });
 });
 
 module.exports = router;
