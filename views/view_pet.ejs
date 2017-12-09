@@ -18,7 +18,7 @@
 			</div>
 			<div class="listContent">
 				<h4>Category</h4>
-				<div><%= pet.modelName %></div>
+				<div><%= pet.type %></div>
 				<hr/>
 			</div>
 			<div class="listContent">
@@ -31,11 +31,20 @@
 				<div><%= pet.age_month %> months</div>
 				<hr/>
 			</div>
-			<div class="listContent">
-				<h4>Breed Name</h4>
-				<div><%= pet.breedName %></div>
-				<hr/>
-			</div>
+			<% if(pet.breedName) { %>
+				<div class="listContent">
+					<h4>Breed Name</h4>
+					<div><%= pet.breedName %></div>
+					<hr/>
+				</div>
+			<% } %>
+			<% if(pet.length) { %>
+				<div class="listContent">
+					<h4>Length</h4>
+					<div><%= pet.length %></div>
+					<hr/>
+				</div>
+			<% } %>
 			<div class="listContent">
 				<h4>Description</h4>
 				<div><%= pet.description %></div>
