@@ -13,9 +13,10 @@ var UserSchema = new mongoose.Schema({
 
 UserSchema.plugin(passportLocalMongoose);
 
-UserSchema.methods.findPets = function(callback) {
+UserSchema.methods.getAllPets = function(callback) {
+    //callback(docs, error);
     var that = this;
-    basePet.find({'owner': that._id}, function(error, docs) {
+    BasePet.find({'owner': that._id}, function(error, docs) {
         console.log(docs);
         callback(docs, error);
     });
