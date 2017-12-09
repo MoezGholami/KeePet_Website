@@ -5,7 +5,8 @@ var GUserSchema = new mongoose.Schema({
     email:  String,
     firstName: String,
     lastName: String,
-    description: {type: String, default: ""}
+    description: {type: String, default: ""},
+    image: {type: String, default: ""}
 });
 
 module.exports = mongoose.model("GUser", GUserSchema);

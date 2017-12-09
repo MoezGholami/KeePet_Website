@@ -10,7 +10,6 @@
 		
 		<div class="container" id="mainContent">
 			<form action="/manage/edit" method="POST" id="main_form">
-				<input name="myImage" type="file">
 				<h3>Edit your profile</h3>
 				<hr/>
 				<div class="row listContent">
@@ -36,7 +35,7 @@
 					form="main_form"><%= currentUser.description %></textarea>
 				</div>
 				
-				<input type="submit" class="btn btn-primary" value="Save">
+				<input type="submit" class="btn btn-primary" value="Save" id="submitButton">
 			</form>
 		</div>
         

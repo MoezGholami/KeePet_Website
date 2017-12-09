@@ -79,35 +79,36 @@ app.get('/auth/google',
   passport.authenticate('google', { scope: ['email profile'] }));
 
 app.get('/auth/google/callback',
-  passport.authenticate('google', {
-    failureRedirect: '/login'
-  }),
-  function(req, res) {
-    // Authenticated successfully
-    GUser.find({id: req.user.id}, (err, existUser) => {
-        if(err) {
-          console.log(err);
-        } else {
-            if(existUser.length === 0) {
-              var newGUser = {
-                id: req.user.id,
-                email:  req.user.emails[0].value,
-                firstName: req.user.name.givenName,
-                lastName: req.user.name.familyName
-              }
-              GUser.create(newGUser, (err, createdUser) => {
-                if(err) {
-                  console.log(err);
-                } else {
-                  console.log('new user profile created');
-                  res.redirect('/owner');
-                }
-              });
+    passport.authenticate('google', {
+        failureRedirect: '/login'
+    }),
+    function(req, res) {
+      // Authenticated successfully
+        GUser.find({id: req.user.id}, (err, existUser) => {
+            if(err) {
+                console.log(err);
             } else {
-              res.redirect('/owner');
+                if(existUser.length === 0) {
+                    var newGUser = {
+                        id: req.user.id,
+                        email:  req.user.emails[0].value,
+                        firstName: req.user.name.givenName,
+                        lastName: req.user.name.familyName,
+                        image: req.user.photos[0].value
+                    }
+                    GUser.create(newGUser, (err, createdUser) => {
+                        if(err) {
+                          console.log(err);
+                        } else {
+                          console.log('new user profile created');
+                          res.redirect('/owner');
+                        }
+                    });
+                } else {
+                    res.redirect('/owner');
+                }
             }
-        }
-    });
+        });
 });
 
 // catch 404 and forward to error handler
