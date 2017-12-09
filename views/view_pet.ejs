@@ -11,17 +11,20 @@
 		<div class="container" id="mainContent">
 			<h3>Pet Profile</h3>
 			<hr/>
-			<div class="listContent">
-				<h4>Name</h4>
-				<div><%= pet.name %></div>
-				<hr/>
+			<div class="row listContent">
+				<div class="col-md-6">
+					<img src=<%= pet.getPhotoUrl() %>>
+				</div>
+				<div class="col-md-6">
+					<h4>Name</h4>
+					<div><%= pet.name %></div>
+					<hr/>
+					<h4>A lovely <%= pet.type %></h4>
+				</div>
 			</div>
+			
 			<div class="listContent">
-				<h4>Category</h4>
-				<div><%= pet.type %></div>
 				<hr/>
-			</div>
-			<div class="listContent">
 				<h4>Sex</h4>
 				<div><%= pet.sex %></div>
 				<hr/>
