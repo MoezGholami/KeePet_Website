@@ -34,6 +34,7 @@ var getPetSchema = function(modelName, callback) {
     for(var k in model.schema.paths)
         if(k!='__v' && k!='_id' && k!='owner' && k!='type')
             result.push({name: k, type: model.schema.paths[k].instance});
+    result.push({name: 'photo_url', type: 'String'});
     callback(null, result);
 };
 

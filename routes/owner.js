@@ -119,4 +119,11 @@ router.post('/store_pet', middleware.checkLoggedIn, (req, res, next) => {
         });
 });
 
+router.get('/pet_photo/:id', (req, res, next) => {
+    Pet.basePet.findById(req.params.id, (error, animal) => {
+        res.setHeader('Content-Type', 'image/png');
+        res.send(animal.photo);
+    });
+});
+
 module.exports = router;
