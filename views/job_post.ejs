@@ -13,12 +13,10 @@
                 <div class="container container1">
                     <h4>Please list the categories of pets you have</h4>
                     <hr/>
-                    <input type="checkbox" name="PetIDs" value="Dog" checked/>Dog<br>
-                    <input type="checkbox" name="PetIDs" value="Cat"/>Cat<br>
-                    <input type="checkbox" name="PetIDs" value="Fish"/>Fish<br>
-                    <input type="checkbox" name="PetIDs" value="Bird"/>Bird<br>
-                    <input type="checkbox" name="PetIDs" value="Reptile"/>Reptile<br>
-                    <input type="checkbox" name="PetIDs" value="Small Animal"/>Small Animal<br>
+                    <% for(var i=0; i<pets.length; i++) { %>
+                        <input type="checkbox" name="PetIDs" value="<%= pets[i]._id %>"/>
+                        <img src="<%= pets[i].getPhotoUrl() %>" style="width:10%; height: 10%"/><%= pets[i].name %><br>    
+                    <% } %>
                     <hr/>
                     <h4>Please select your preferred start and end date</h4>
                     <hr/>
