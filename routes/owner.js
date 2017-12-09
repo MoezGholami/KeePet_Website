@@ -9,6 +9,8 @@ const middleware 	= require(appRoot + "/middleware/index");
 const User = require(appRoot + "/domain/models/user");
 const Pet = require(appRoot + "/domain/models/pet");
 const JobPost = require(appRoot + "/domain/models/jobPost");
+var multer  = require('multer');
+var upload = multer();
 
 
 //this is test post data
@@ -101,12 +103,11 @@ router.post('/store_pet', middleware.checkLoggedIn, (req, res, next) => {
     });
 });
 
-router.post('/post_pet', middleware.checkLoggedIn, (req, res, next) => {
+router.post('/post_pet', [upload.single('photo'), middleware.checkLoggedIn], (req, res, next) => {
     var params = req.body;
-    console.log('moez: modelname');
-    console.log(params);
     var isApi = false || params.isApi;
     params.owner = req.user._id;
+    params.photo = req.file.buffer;
     var modelName = params.modelName;
     Pet.storePet(modelName, params, (error, instance) => {
         if(instance)
