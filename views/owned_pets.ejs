@@ -2,54 +2,62 @@
 <html>
     <head>
         <%- include head_commons.ejs %>      
-        <link rel="stylesheet" href="/stylesheets/manage.css">
+        <link rel="stylesheet" href="/stylesheets/owned_pets.css">
     </head>
     <body>
 
         <%- include body_header.ejs %> 
-		
 		<div class="container" id="mainContent">
-			<h3>Pet Profile</h3>
+			<h3>Your Pet Profiles</h3>
 			<hr/>
-			<div class="listContent">
-				<h4>Name</h4>
-				<div><%= pet.name %></div>
-				<hr/>
-			</div>
-			<div class="listContent">
-				<h4>Category</h4>
-				<div><%= pet.type %></div>
-				<hr/>
-			</div>
-			<div class="listContent">
-				<h4>Sex</h4>
-				<div><%= pet.sex %></div>
-				<hr/>
-			</div>
-			<div class="listContent">
-				<h4>Age</h4>
-				<div><%= pet.age_month %> months</div>
-				<hr/>
-			</div>
-			<% if(pet.breedName) { %>
-				<div class="listContent">
-					<h4>Breed Name</h4>
-					<div><%= pet.breedName %></div>
-					<hr/>
+			<% for(var i = 0; i < pets.length; i++) { %>
+				<div class="row unit">
+					<div class="row row_unit">
+						<div class="col-md-2">
+							<img class="img-circle" src=<%= pets[i].getPhotoUrl() %>>
+						</div>
+						<div class="col-md-6">
+							<a href="/owner/view_pet/<%= pets[i]._id %>"><h3><%= pets[i].name %></h3></a>
+						</div>
+					</div>
+					<div class="row row_unit">
+						<div class="col-md-6">
+							<h4>Type</h4>
+							<div><%= pets[i].type %></div>
+						</div>
+						<% if(pets[i].breedName) { %>
+							<div class="col-md-6">
+								<h4>Breed Name</h4>
+								<div><%= pets[i].breedName %></div>
+							</div>
+						<% } %>
+					</div>
+					<div class="row row_unit">
+						<div class="col-md-6">
+							<h4>Sex</h4>
+							<div><%= pets[i].sex %></div>
+						</div>
+						<div class="col-md-6">
+							<h4>Age</h4>
+							<div><%= pets[i].age_month %> months</div>
+						</div>
+					</div>
+					<div class="row row_unit">
+						<% if(pets[i].length) { %>
+							<div class="col-md-6">	
+								<h4>Length</h4>
+								<div><%= pets[i].length %> inch</div>
+							</div>
+						<% } %>
+					</div>
+					<div class="row row_unit">
+						<div class="col-md-12">
+							<h4>Description</h4>
+							<div><%= pets[i].description %></div>
+						</div>
+					</div>
 				</div>
-			<% } %>
-			<% if(pet.length) { %>
-				<div class="listContent">
-					<h4>Length</h4>
-					<div><%= pet.length %> inch</div>
-					<hr/>
-				</div>
-			<% } %>
-			<div class="listContent">
-				<h4>Description</h4>
-				<div><%= pet.description %></div>
-			</div>
+	        <% } %>
 		</div>
-        
     </body>
 </html>

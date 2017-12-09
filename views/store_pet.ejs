@@ -12,6 +12,7 @@
 			<form action="/owner/post_pet" method="POST" id="main_form">
 				<h3>Create your pet's profile</h3>
 				<hr/>
+				<input type="file" name="photo" accept=".jpg,.jpeg,.png">  
 				<% for(var i = 0; i < schema.length; i++) { %>
 					<% if(schema[i].name === "breedName") { %>
 						<h4>Breed</h4>
