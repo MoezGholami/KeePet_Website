@@ -142,7 +142,7 @@ router.get('/owned_pets', middleware.checkLoggedIn, (req, res, next) => {
             res.send(JSON.stringify(pets));
         }
         else {
-            res.send({redirect: '/pets'});
+            res.render('owned_pets', {pets: pets, currentUser: req.user, title: 'Pets you own'});
         }
     });
 });

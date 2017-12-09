@@ -12,8 +12,11 @@
 			<form action="/owner/store_pet" method="POST" id="main_form">
 				<h3>Please insert your pet category</h3>
 				<div class="listContent">
-					<input type="text" class="form-control" name="category" 
-					placeholder="Dog">
+					<select name="category">
+					    <option value="Dog">Dog</option>
+					    <option value="Cat">Cat</option>
+					    <option value="Snake">Snake</option>
+					</select>
 				</div>
 				<input type="submit" class="btn btn-primary" value="Next">
 			</form>

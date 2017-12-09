@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <%- include head_commons.ejs %>      
+        <link rel="stylesheet" href="/stylesheets/manage.css">
+    </head>
+    <body>
+
+        <%- include body_header.ejs %> 
+		
+		<div class="container" id="mainContent">
+			<h3>Pet Profile</h3>
+			<hr/>
+			<div class="listContent">
+				<h4>Name</h4>
+				<div><%= pet.name %></div>
+				<hr/>
+			</div>
+			<div class="listContent">
+				<h4>Category</h4>
+				<div><%= pet.type %></div>
+				<hr/>
+			</div>
+			<div class="listContent">
+				<h4>Sex</h4>
+				<div><%= pet.sex %></div>
+				<hr/>
+			</div>
+			<div class="listContent">
+				<h4>Age</h4>
+				<div><%= pet.age_month %> months</div>
+				<hr/>
+			</div>
+			<% if(pet.breedName) { %>
+				<div class="listContent">
+					<h4>Breed Name</h4>
+					<div><%= pet.breedName %></div>
+					<hr/>
+				</div>
+			<% } %>
+			<% if(pet.length) { %>
+				<div class="listContent">
+					<h4>Length</h4>
+					<div><%= pet.length %> inch</div>
+					<hr/>
+				</div>
+			<% } %>
+			<div class="listContent">
+				<h4>Description</h4>
+				<div><%= pet.description %></div>
+			</div>
+		</div>
+        
+    </body>
+</html>

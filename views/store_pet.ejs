@@ -35,8 +35,10 @@
 						<hr/>
 					<% } else if(schema[i].name === "sex") { %>
 						<h4>Sex</h4>
-						<input type="text" class="form-control" name="sex" 
-						placeholder="Male/Female">
+						<select name="sex">
+						    <option value="Male">Male</option>
+						    <option value="Female">Female</option>
+						</select>
 						<hr/>
 					<% } else if(schema[i].name === "description") { %>
 						<h4>Description</h4>
