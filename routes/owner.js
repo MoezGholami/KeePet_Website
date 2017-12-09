@@ -25,8 +25,15 @@ router.get('/', function(req, res, next) {
 	res.render('owner', {allKeeperPosts: allKeeperPosts, currentUser: req.user});
 });
 
-router.get('/new_job_post', (req, res, next) => {
-	res.render('job_post', {allKeeperPosts: allKeeperPosts, currentUser: req.user, title: 'New Job Post'});
+router.get('/new_job_post', middleware.checkLoggedIn, (req, res, next) => {
+    req.user.getAllPets((pets)=>{
+        console.log(pets);
+        res.render('job_post', {allKeeperPosts: allKeeperPosts, 
+            currentUser: req.user,
+            pets: pets, 
+            title: 'New Job Post'
+        });
+    });
 });
 
 router.post('/new_job_post_upload', middleware.checkLoggedIn, (req, res, next) => {
