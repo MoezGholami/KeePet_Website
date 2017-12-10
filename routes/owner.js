@@ -42,9 +42,40 @@ router.post('/new_job_post_upload', middleware.checkLoggedIn, (req, res, next) =
     console.log('moezgholami: job:');
     console.log(req.user);
     JobPost.store(req.user._id, req.body, function(error, instance){
-        //TODO: show job after that
         console.log('saved successfully');
-        res.send({redirect: '/'});
+        res.redirect('/owner');
+    });
+});
+
+router.post('/insec_new_job_post_upload', (req, res, next) => {
+    console.log('START OF REQUEST BODY');
+    console.log(req.body);
+    console.log('END OF REQUEST BODY');
+    var pets = req.body.pets;
+    var email = req.body.email;
+    var PetIDs = [];
+    User.findOne({email: email}, function(error, user){
+        async.map(pets, (pet, done) => {
+            pet.photo = new Buffer(pet.image, 'base64');
+            pet.owner = user._id;
+            Pet.storePet(pet.type, pet, (error, instance)=>{
+                if(instance)
+                    PetIDs.push(instance._id);
+                done(error, instance);
+            });
+        }, (error, pets)=> {
+            var params = {};
+            params.PetIDs = PetIDs;
+            params.start_date = req.body.start_date;
+            params.end_date = req.body.end_date;
+            params.latitude = req.body.latitude;
+            params.longitude = req.body.longitude;
+            params.description = req.body.description;
+            params.addons = req.body.addons;
+            JobPost.store(user._id, params, (error, instance) => {
+                res.send({hello: 'moez'});
+            });
+        });
     });
 });
 
@@ -68,6 +99,11 @@ router.get('/all_job_posts', (req, res, next) => {
 router.get('/remove_job_post/:id', (req, res, next) => {
     res.setHeader('Content-Type', 'application/json');
     JobPost.remove({_id: req.params.id}, (error)=> {res.send(error);});
+});
+
+router.get('/remove_job_post_api/:id', (req, res, next) => {
+    res.setHeader('Content-Type', 'application/json');
+    JobPost.remove({_id: req.params.id}, ()=> {res.send({email: 'ali'});});
 });
 
 router.post('/all_job_posts', middleware.checkLoggedIn, (req, res, next) => {
