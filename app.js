@@ -11,7 +11,6 @@ const mongoose      = require("mongoose");
 const passport      = require("passport");
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const User          = require(appRoot + "/domain/models/user");
-const GUser         = require(appRoot + "/domain/models/gUser");
 
 var index   = require(appRoot + '/routes/index');
 var users   = require(appRoot + '/routes/users');
@@ -57,13 +56,16 @@ passport.use(new GoogleStrategy(
 ));
 
 passport.serializeUser(function(user, done) {
-  // done(null, user.id);
-  done(null, user);
+    console.log('moez: in serialize');
+    console.log(user);
+    var id = user.gid || user.id;
+	done(null, id);
 });
 
-passport.deserializeUser(function(obj, done) {
-  // Users.findById(obj, done);
-  done(null, obj);
+passport.deserializeUser(function(gid, done) {
+    console.log('moez: in deserialize');
+    console.log(gid);
+    User.findOne({gid: gid}, done);
 });
 
 //connect to mongod server
@@ -84,28 +86,33 @@ app.get('/auth/google/callback',
     }),
     function(req, res) {
       // Authenticated successfully
-        GUser.find({id: req.user.id}, (err, existUser) => {
+        console.log('moez: after succesful oauth');
+        console.log(req.user);
+        User.find({gid: req.user.id}, (err, existUser) => {
             if(err) {
                 console.log(err);
             } else {
                 if(existUser.length === 0) {
-                    var newGUser = {
-                        id: req.user.id,
+                    var newUser = {
+                        gid: req.user.id,
                         email:  req.user.emails[0].value,
                         firstName: req.user.name.givenName,
                         lastName: req.user.name.familyName,
                         image: req.user.photos[0].value
                     }
-                    GUser.create(newGUser, (err, createdUser) => {
+                    User.create(newUser, (err, createdUser) => {
                         if(err) {
                           console.log(err);
                         } else {
                           console.log('new user profile created');
                           res.redirect('/owner');
+                            //req.login(newUser, () => {res.redirect('/owner');});
                         }
                     });
                 } else {
-                    res.redirect('/owner');
+                    console.log('moez: user exists');
+                    console.log(existUser);
+                    req.login(existUser, () => {res.redirect('/owner');});
                 }
             }
         });

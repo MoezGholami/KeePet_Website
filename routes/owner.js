@@ -26,6 +26,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/new_job_post', middleware.checkLoggedIn, (req, res, next) => {
+    console.log(req.user);
     req.user.getAllPets((pets)=>{
         console.log(pets);
         res.render('job_post', {allKeeperPosts: allKeeperPosts, 
