@@ -1,16 +1,17 @@
 require('dotenv').config()
-const nodemailer  = require('nodemailer');
-const appRoot     = require('app-root-path');
-var express       = require('express');
-var path          = require('path');
-var favicon       = require('serve-favicon');
-var logger        = require('morgan');
-var cookieParser  = require('cookie-parser');
-var bodyParser    = require('body-parser');
-var mongoose      = require("mongoose");
-var passport      = require("passport");
-var LocalStrategy = require("passport-local");
-var User          = require(appRoot + "/domain/models/user");
+const nodemailer    = require('nodemailer');
+const appRoot       = require('app-root-path');
+const express       = require('express');
+const path          = require('path');
+const favicon       = require('serve-favicon');
+const logger        = require('morgan');
+const cookieParser  = require('cookie-parser');
+const bodyParser    = require('body-parser');
+const mongoose      = require("mongoose");
+const passport      = require("passport");
+const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+const User          = require(appRoot + "/domain/models/user");
+const GUser         = require(appRoot + "/domain/models/gUser");
 
 var index   = require(appRoot + '/routes/index');
 var users   = require(appRoot + '/routes/users');
@@ -42,9 +43,28 @@ app.use(require("express-session")({
 
 app.use(passport.initialize());
 app.use(passport.session());
-passport.use(new LocalStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+
+
+passport.use(new GoogleStrategy(
+  {
+    "clientID": process.env.CLIENT_ID,
+    "clientSecret": process.env.CLIENT_SECRET,
+    "callbackURL": process.env.CALLBACK_URL
+  },
+  function(accessToken, refreshToken, profile, done) {
+    return done(null, profile);
+  }
+));
+
+passport.serializeUser(function(user, done) {
+  // done(null, user.id);
+  done(null, user);
+});
+
+passport.deserializeUser(function(obj, done) {
+  // Users.findById(obj, done);
+  done(null, obj);
+});
 
 //connect to mongod server
 var url = 'mongodb://'+process.env.DB_HOST+':'+process.env.DB_PORT+'/'+process.env.DB_NAME;
@@ -54,6 +74,42 @@ app.use('/', index);
 app.use('/users', users);
 app.use('/owner', owner);
 app.use('/manage', manage);
+
+app.get('/auth/google',
+  passport.authenticate('google', { scope: ['email profile'] }));
+
+app.get('/auth/google/callback',
+    passport.authenticate('google', {
+        failureRedirect: '/login'
+    }),
+    function(req, res) {
+      // Authenticated successfully
+        GUser.find({id: req.user.id}, (err, existUser) => {
+            if(err) {
+                console.log(err);
+            } else {
+                if(existUser.length === 0) {
+                    var newGUser = {
+                        id: req.user.id,
+                        email:  req.user.emails[0].value,
+                        firstName: req.user.name.givenName,
+                        lastName: req.user.name.familyName,
+                        image: req.user.photos[0].value
+                    }
+                    GUser.create(newGUser, (err, createdUser) => {
+                        if(err) {
+                          console.log(err);
+                        } else {
+                          console.log('new user profile created');
+                          res.redirect('/owner');
+                        }
+                    });
+                } else {
+                    res.redirect('/owner');
+                }
+            }
+        });
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
