@@ -36,8 +36,10 @@ router.get('/new_job_post', middleware.checkLoggedIn, (req, res, next) => {
     });
 });
 
-router.post('/new_job_post_upload', middleware.checkLoggedIn, (req, res, next) => {
-    JobPost.store(req.user._id, req.body).then(()=>{
+router.post('/new_job_post_upload', (req, res, next) => {
+    console.log('moezgholami: job:');
+    console.log(req.body);
+    JobPost.store(req.user._id, req.body, function(error, instance){
         //TODO: show job after that
         console.log('saved successfully');
         res.send({redirect: '/'});
@@ -64,6 +66,11 @@ var post = {
     from: '2017-11-06T22:31:54.466Z',
     to: '2017-12-06T22:31:54.466Z',
     description: 'some description',
+    username: 'helen',
+    email: 'cmk@gmail.com',
+    title: 'abc',
+    latitude: 30.2696,
+    longitude: -97.713,
     options: [
         'opt1', 'opt2', 'opt4'
     ]
@@ -110,8 +117,10 @@ router.post('/store_pet', middleware.checkLoggedIn, (req, res, next) => {
     });
 });
 
-router.post('/post_pet', [upload.single('photo'), middleware.checkLoggedIn], (req, res, next) => {
+router.post('/post_pet',[upload.single('photo')], (req, res, next) => {
     var params = req.body;
+    console.log('moez: body');
+    console.log(params);
     var isApi = false || params.isApi;
     params.owner = req.user._id;
     params.photo = req.file.buffer;

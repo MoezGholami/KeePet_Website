@@ -14,26 +14,27 @@ var JobPostSchema = new mongoose.Schema({
 });
 var JobPost = mongoose.model("JobPost", JobPostSchema);
 
-JobPost.schema.statics.store = function(user_id, params) {
-    return new Promise((resolve, reject) => {
-        var addOns = [];
-        for(var k in params.addOns)
-            if(params.addOns[k])
-                addOns.push(k);
-        var saving = new JobPost({
-            owner : user_id,
-            pets : params.PetIDs,
-            start_date : params.start_date,
-            end_date : params.end_date,
-            description : prams.description,
-            addOns: addOns
-        });
-        saving.save((error) => {
-            if(error)
-                reject(error);
-            else
-                resolve(saving);
-        });
+JobPost.store = function(user_id, params, callback) {
+    var addOns = [];
+    if(! (params.addons instanceof Array))
+        params.addons = [params.addons];
+    for(var i=0; i<params.addons.length; i++)
+        addOns.push(params.addons[i]);
+    var saving = new JobPost({
+        owner : user_id,
+        pets : params.PetIDs,
+        start_date : params.start_date,
+        end_date : params.end_date,
+        latitude: params.latitude,
+        longitude: params.longitude,
+        description : params.description,
+        addOns: addOns
+    });
+    saving.save(function (error) {
+        if(error)
+            callback(error, null);
+        else
+            callback(null, saving);
     });
 };
 

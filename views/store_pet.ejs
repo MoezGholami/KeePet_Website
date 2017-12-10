@@ -12,7 +12,6 @@
 			<form action="/owner/post_pet" method="POST" id="main_form" enctype="multipart/form-data">
 				<h3>Create your <%= category.toLowerCase() %>'s profile</h3>
 				<hr/>
-				<input type="file" name="photo" accept=".jpg,.jpeg,.png">  
 				<% for(var i = 0; i < schema.length; i++) { %>
 					<% if(schema[i].name === "breedName") { %>
 						<h4>Breed</h4>
@@ -30,7 +29,7 @@
 						placeholder="Wolfman">
 						<hr/>
 					<% } else if(schema[i].name === "age_month") { %>
-						<h4>Age(int month)</h4>
+						<h4>Age (months)</h4>
 						<input type="number" class="form-control" name="age_month" 
 						placeholder="23">
 						<hr/>
