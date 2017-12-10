@@ -1,7 +1,19 @@
 require('dotenv').config();
+const appRoot       = require('app-root-path');
 const nodemailer = require('nodemailer');
+const fs = require('fs');
+const ejs = require('ejs');
 
-const mail = function() {
+var html_content = '';
+fs.readFile(appRoot + '/views/welcome_letter.ejs', 'utf-8', function(err, data) {
+    // now data is a string
+    html_content = data;
+});
+
+const mail = function(user) {
+    var name = user.firstName;
+    var target_email = user.email;
+    var host = 'localhost:3000';
 	nodemailer.createTestAccount((err, account) => {
 
 	    // create reusable transporter object using the default SMTP transport
@@ -17,11 +29,11 @@ const mail = function() {
 
 	    // setup email data with unicode symbols
 	    let mailOptions = {
-	        from: '"Test Email 👻" <mingzongzz@gmail.com>', // sender address
-	        to: 'mzong@utexas.edu', // list of receivers
-	        subject: 'Hello ✔', // Subject line
-	        text: 'Hello world?', // plain text body
-	        html: '<b>This is a test?</b>' // html body
+	        from: '"Welcome Letter 👻" <mingzongzz@gmail.com>', // sender address
+	        to: target_email, // list of receivers
+	        subject: 'Welcome ✔', // Subject line
+	        text: 'Hello world', // plain text body
+	        html: ejs.render(html_content, {name: name, host: host}) // html body
 	    };
 
 	    // send mail with defined transport object

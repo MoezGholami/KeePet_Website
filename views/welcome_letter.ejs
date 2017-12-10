@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Welcome!</title>
+        <link rel='stylesheet' href='localhost:3000/stylesheets/register.css' />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>
+    </head>
+    <body>
+        <style>
+            #subtitle { margin-top: 33px; }
+            #title { background-color: rgb(252, 195, 25); margin-left: 0; margin-right: 0; }
+            #bar { background-color: rgb(252, 195, 25); }
+            #KeePet { padding-left: 25px; } 
+            #breedinput { width: 600px; }
+            .caption { padding-bottom: 0; padding-top: 0; }
+            .moreinfo { margin-left: 8px; } 
+            #center { text-align: center; }
+            #title3 { text-align: center; margin-bottom: 30px; }
+            button { margin-left: auto; margin-right: auto; } 
+            #jumbotroncontainer { width: 50%; margin-top: 30px; }
+        </style>
+
+        <div class="row" id="title">
+            <table id="owned_streams" class="table">
+                <tr>
+                    <th width="15%">
+                        <h1 id="KeePet">KeePet</h1>
+                    </th>
+                    <th width="20%">
+                        <p id="subtitle">Your pet is always loved</p>
+                    </th>
+                    <th width="70%"></th>
+                </tr>
+            </table>
+        </div>
+
+
+        <div class="container" id="jumbotroncontainer">
+            <h3>Hello There, <%= name %></h3>
+            <br/>
+            <h5>
+                Thanks for your interest in our platform. Our folks at KeePet are trying to do the bests for you and your lovely pets.
+                <br/>
+                <a href="#">Here</a> you can learn more about our services. You may ask your question <a href="#">Here.</a>
+            </h5>
+            <br/>
+            <h4>
+                Bests
+                <br/>
+                KeePet Team
+            </h4>
+        </div>
+
+
+    </body>
+</html>
