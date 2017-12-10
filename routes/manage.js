@@ -8,11 +8,10 @@ const User 			= require(appRoot + "/domain/models/user");
 const middleware 	= require(appRoot + "/middleware/index"); 
 const multer 		= require('multer');
 const upload 		= multer({limits: {fileSize: 2000000 },dest:'uploads/'});
-const GUser         = require(appRoot + "/domain/models/gUser");
 
 
 router.get('/', middleware.checkLoggedIn, function(req, res, next) {
-	GUser.findOne({id: req.user.id}, (err, existUser) => {
+	User.findOne({id: req.user.id}, (err, existUser) => {
         if(err) {
           console.log(err);
         } else {
@@ -25,7 +24,7 @@ router.get('/', middleware.checkLoggedIn, function(req, res, next) {
 });
 
 router.get('/edit', middleware.checkLoggedIn, function(req, res, next) {
-	GUser.findOne({id: req.user.id}, (err, existUser) => {
+	User.findOne({id: req.user.id}, (err, existUser) => {
         if(err) {
           console.log(err);
         } else {
@@ -38,11 +37,11 @@ router.get('/edit', middleware.checkLoggedIn, function(req, res, next) {
 });
 
 router.post('/edit', middleware.checkLoggedIn, function(req, res, next) {
-	GUser.findOne({id: req.user.id}, (err, existUser) => {
+	User.findOne({id: req.user.id}, (err, existUser) => {
         if(err) {
           console.log(err);
         } else {
-			GUser.findByIdAndUpdate(existUser._id, {
+			User.findByIdAndUpdate(existUser._id, {
 				firstName: req.body.firstName,
 				lastName: req.body.lastName,
 				email: req.body.email,

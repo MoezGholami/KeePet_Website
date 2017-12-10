@@ -11,7 +11,6 @@ const mongoose      = require("mongoose");
 const passport      = require("passport");
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const User          = require(appRoot + "/domain/models/user");
-const GUser         = require(appRoot + "/domain/models/gUser");
 
 var index   = require(appRoot + '/routes/index');
 var users   = require(appRoot + '/routes/users');
@@ -84,19 +83,19 @@ app.get('/auth/google/callback',
     }),
     function(req, res) {
       // Authenticated successfully
-        GUser.find({id: req.user.id}, (err, existUser) => {
+        User.find({id: req.user.id}, (err, existUser) => {
             if(err) {
                 console.log(err);
             } else {
                 if(existUser.length === 0) {
-                    var newGUser = {
+                    var newUser = {
                         id: req.user.id,
                         email:  req.user.emails[0].value,
                         firstName: req.user.name.givenName,
                         lastName: req.user.name.familyName,
                         image: req.user.photos[0].value
                     }
-                    GUser.create(newGUser, (err, createdUser) => {
+                    User.create(newUser, (err, createdUser) => {
                         if(err) {
                           console.log(err);
                         } else {
