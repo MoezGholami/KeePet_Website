@@ -7,9 +7,54 @@ const mongoose 		= require("mongoose");
 const User 			= require(appRoot + "/domain/models/user");
 const middleware 	= require(appRoot + "/middleware/index"); 
 
-router.get('/:id', middleware.checkLoggedIn, function(req, res, next) {
+router.get('/', function(req, res, next) {
+    console.log('moez: in manage');
     console.log(req.user);
-    res.render('manage', {firstname: req.user.firstName, lastname: req.user.lastName});
-})
+	User.findOne({gid: req.user.gid}, (err, existUser) => {
+        if(err) {
+          console.log(err);
+        } else {
+		    res.render('manage', {
+		    	currentUser: existUser,
+		    	title: 'Manage'
+		    });
+        }
+    });
+});
+
+router.get('/edit', middleware.checkLoggedIn, function(req, res, next) {
+	User.findOne({gid: req.user.gid}, (err, existUser) => {
+        if(err) {
+          console.log(err);
+        } else {
+		    res.render('manage_edit', {
+		    	currentUser: existUser,
+		    	title: 'Profile Edit'
+		    });
+        }
+    });
+});
+
+router.post('/edit', middleware.checkLoggedIn, function(req, res, next) {
+	User.findOne({gid: req.user.gid}, (err, existUser) => {
+        if(err) {
+          console.log(err);
+        } else {
+			User.findByIdAndUpdate(existUser._id, {
+				firstName: req.body.firstName,
+				lastName: req.body.lastName,
+				email: req.body.email,
+				description: req.body.description
+			}, (err, updatedUser) => {
+				if(err) {
+					res.redirect('/manage/edit');
+				} else {
+					console.log(updatedUser);
+					res.redirect('/manage');
+				}
+			});
+        }
+    });
+});
 
 module.exports = router;

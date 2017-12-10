@@ -13,7 +13,7 @@ var petSchema = new mongoose.Schema({
 
 petSchema.methods.getPhotoUrl = function() {
     if(this.photo)
-        return '/pet_photo/' + this._id;
+        return '/owner/pet_photo/' + this._id;
     else
         return '/images/default_animal_avatar.png';
 };
