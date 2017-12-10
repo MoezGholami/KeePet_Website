@@ -22,8 +22,22 @@ for(var i=0; i<16; i++)
 		image: "http://www.printawallpaper.com/upload/5-colorful-home-decoration-ideas-1.jpg"
 	});
 
-router.get('/', function(req, res, next) {
-	res.render('owner', {allKeeperPosts: allKeeperPosts, currentUser: req.user});
+router.get('/', middleware.checkLoggedIn, function(req, res, next) {
+    JobPost.find({owner: req.user._id}).populate([{path: 'pets', model: 'Pet'}, {path: 'owner', model: 'User'}]).exec((error, posts) => {
+        async.map(posts, (post, done) => {
+            console.log(post);
+            var p = JSON.parse(JSON.stringify(post));
+            for(var i=0; i<post.pets.length; i++)
+            {
+                var url = post.pets[i].getPhotoUrl();
+                p.pets[i].photo = url;
+            }
+            done(null, p);
+        }, (error, posts) => {
+            //console.log(JSON.stringify(posts));
+            res.render('owner', {allKeeperPosts: posts, currentUser: req.user});
+        });
+    });
 });
 
 router.get('/new_job_post', middleware.checkLoggedIn, (req, res, next) => {
@@ -97,8 +111,7 @@ router.get('/all_job_posts', (req, res, next) => {
 });
 
 router.get('/remove_job_post/:id', (req, res, next) => {
-    res.setHeader('Content-Type', 'application/json');
-    JobPost.remove({_id: req.params.id}, (error)=> {res.send(error);});
+    JobPost.remove({_id: req.params.id}, (error)=> {res.redirect('/owner');});
 });
 
 router.get('/remove_job_post_api/:id', (req, res, next) => {
@@ -109,6 +122,25 @@ router.get('/remove_job_post_api/:id', (req, res, next) => {
 router.post('/all_job_posts', middleware.checkLoggedIn, (req, res, next) => {
     res.setHeader('Content-Type', 'application/json');
     res.send(JSON.stringify(posts));
+});
+
+router.get('/view_job_post/:id', (req, res, next) => {
+    JobPost.find({_id: req.params.id}).populate([{path: 'pets', model: 'Pet'}, {path: 'owner', model: 'User'}]).exec((error, posts) => {
+        async.map(posts, (post, done) => {
+            console.log(post);
+            var p = JSON.parse(JSON.stringify(post));
+            for(var i=0; i<post.pets.length; i++)
+            {
+                var url = post.pets[i].getPhotoUrl();
+                p.pets[i].photo = url;
+            }
+            done(null, p);
+        }, (error, posts)=>{
+            console.log(JSON.stringify(posts));
+            res.render('view_job_post', {post: posts[0], currentUser: req.user, title: 'Post'});
+        });
+    });
+
 });
 
 
@@ -192,5 +224,24 @@ router.get('/pet_photo/:id', (req, res, next) => {
         res.send(animal.photo);
     });
 });
+
+
+router.get('/search', (req, res, next) => {
+    JobPost.find({}).populate([{path: 'pets', model: 'Pet'}, {path: 'owner', model: 'User'}]).exec((error, posts) => {
+        async.map(posts, (post, done) => {
+            console.log(post);
+            var p = JSON.parse(JSON.stringify(post));
+            for(var i=0; i<post.pets.length; i++)
+            {
+                var url = post.pets[i].getPhotoUrl();
+                p.pets[i].photo = url;
+            }
+            done(null, p);
+        }, (error, posts) => {
+            res.render('search', {posts: posts, currentUser: req.user, title: 'Search'});
+        });
+    });
+});
+
 
 module.exports = router;

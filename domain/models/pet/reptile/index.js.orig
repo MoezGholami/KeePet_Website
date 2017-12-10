@@ -1,0 +1,19 @@
+const snake = require('./snake');
+const frog = require('./frog');
+const lizard = require('./lizard');
+const turtle = require('./turtle');
+var reptile = {};
+
+<<<<<<< HEAD
+var nameDictionary = {};
+nameDictionary[snake.modelName] = snake;
+reptile.nameDictionary = nameDictionary;
+=======
+reptile.snake = snake;
+reptile.frog = frog;
+reptile.lizard = lizard;
+reptile.turtle = turtle;
+>>>>>>> email
+
+reptile.snake = snake;
+module.exports = reptile;

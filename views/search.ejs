@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <%- include head_commons.ejs %>      
+        <link rel="stylesheet" href="/stylesheets/search.css">
+        <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
+		</script>
+    </head>
+    <body>
+
+        <%- include body_header_reverse.ejs %> 
+		
+		<div class="row">
+			<div class="col-md-3" id="search_container">
+				<div class="form">
+						<h3 class="need_left">Show results for</h3>
+						<h4 class="need_left">Include all these animals</h4>
+						<input type="checkbox" name="type" value="Dog" id="dog_type"/>Dog<br>
+                        <input type="checkbox" name="type" value="Cat" id="cat_type"/>Cat<br>
+                        <input type="checkbox" name="type" value="Snake" id="snake_type"/>Snake<br>
+                        <h4 class="need_left">From</h4>
+                        <input type="date" id="start_date">
+                        <h4 class="need_left">To</h4>
+                        <input type="date" id="end_date">
+						<hr/>
+						<button onclick="search()" class="btn btn-primary need_left" id="search_button">Search</button>
+				</div>
+			</div>
+			<div class="col-md-9">
+				<div id="map"></div>
+			</div>
+		</div>
+        <script async defer
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCy4sTSEo-D6AtHEwei75wag3a9MPabkbA&callback=initMap">
+		</script>
+		<!-- <script src="/javascripts/search.js"></script> -->
+		<script>
+			var marker = [];
+			var markerLocation = [];
+			var map ={};
+			var localPosts = [];
+			function initMap() {
+				var uluru = {lat: 30.2670, lng: -97.7438};
+				map = new google.maps.Map(document.getElementById('map'), {
+				  zoom: 12,
+				  center: uluru
+				});
+				localPosts = <%- JSON.stringify(posts) %>;
+				
+				var contentString = [];
+				var infowindow = [];
+				
+				for(var i = 0; i < localPosts.length; i++) {
+					markerLocation[i] = {lat: localPosts[i].latitude, lng: localPosts[i].longitude};
+
+					contentString[i] = '<div>' + localPosts[i].pets[0].name +'</div>' + 
+										'<a href="/owner/view_job_post/'+ localPosts[i]._id +'">Click here for more detail</a>';
+
+					
+					infowindow[i] = new google.maps.InfoWindow({
+			          content: contentString[i]
+			        });
+
+					marker[i] = new google.maps.Marker({
+					  position: markerLocation[i],
+					  map: map,
+					  title: 'Name'
+					});
+
+
+					marker[i].infowindow = infowindow[i];
+					marker[i].addListener('click', function() {
+			          this.infowindow.open(map, this);
+			        });
+			        marker[i].setVisible(false);
+				}
+
+			}
+			function search(){
+
+				var start = null;
+				var end = null;
+				if($("#start_date").val())
+					start = new Date($("#start_date").val());
+				if($("#end_date").val())
+					end = new Date($("#end_date").val());
+
+				var isdog = $("#dog_type").is(':checked');
+				var iscat = $("#cat_type").is(':checked');
+				var issnake = $("#snake_type").is(':checked');
+
+				// console.log(isdog);
+				// console.log(iscat);
+				// console.log(issnake);
+
+
+				for(var i=0; i<marker.length; i++)
+					marker[i].setVisible(false);
+
+				for(var i=0; i<marker.length; i++)
+				{
+					var inbound_condition = map.getBounds().contains(marker[i].getPosition());
+					var intype_condition = true;
+					var indate_condition = true;
+					
+
+					var havedog = false;
+					var havecat = false;
+					var havesnake = false;
+
+					for(var j = 0; j < localPosts[i].pets.length; j++) {
+						if(localPosts[i].pets[j].type === "Dog") 
+							havedog = true;
+						else if(localPosts[i].pets[j].type === "Cat")
+							havecat = true;
+						else if(localPosts[i].pets[j].type === "Snake")
+							havesnake = true;
+					}
+
+					if(isdog && ! havedog)
+						intype_condition = false;
+					if(iscat && ! havecat)
+						intype_condition = false;
+					if(issnake && ! havesnake)
+						intype_condition = false;
+
+					var temp_from = new Date(localPosts[i].start_date);
+					var temp_to = new Date(localPosts[i].end_date);
+
+					// console.log("current job start: "+temp_from);
+					// console.log("current job end: "+temp_to);
+					// console.log("start: "+start||'undefined');
+					// console.log("end: "+end || 'undefined');
+
+					if(start && start > temp_from) {
+						indate_condition = false;
+					}
+
+					if(end && end < temp_to) {
+						indate_condition = false;
+					}
+
+
+					if(inbound_condition && intype_condition && indate_condition)
+						marker[i].setVisible(true);
+				}
+			}
+		</script>
+    </body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <%- include head_commons.ejs %>      
+        <link rel="stylesheet" href="/stylesheets/owned_pets.css">
+    </head>
+    <body>
+
+        <%- include body_header.ejs %> 
+		
+		<div class="container" id="mainContent">
+			<h3>Available Job</h3>
+			<hr/>
+			<h4>Pets need care</h4>
+			<% for(var i = 0; i < post.pets.length; i++) { %>
+				<div class="row unit">
+					<div class="row row_unit">
+						<div class="col-md-2">
+							<img class="img-circle" src="http://localhost:3000<%= post.pets[i].photo %>">
+						</div>
+						<div class="col-md-6">
+							<a href="/owner/view_pet/<%= post.pets[i]._id %>"><h3><%= post.pets[i].name %></h3></a>
+						</div>
+					</div>
+				</div>
+	        <% } %>
+	        <hr>
+	        <h4>Dates need care</h4>
+	        <h5>From <%= post.start_date.substring(0, 10) %> to <%= post.end_date.substring(0, 10) %></h5>
+	        <hr>
+	        <h4>Owner</h4>
+	        <h5><%= post.owner.firstName %> <%= post.owner.lastName %></h5>
+	        <hr>
+	        <h4>Contact</h4>
+	        <h5><%= post.owner.email %></h5>
+	        <hr>
+	        <h4>Description</h4>
+	        <h5 id="bottom_content"><%= post.description %></h5>
+		</div>
+        
+    </body>
+</html>
+
