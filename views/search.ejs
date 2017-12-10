@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <%- include head_commons.ejs %>      
+        <link rel="stylesheet" href="../stylesheets/manage.css">
+    </head>
+    <body>
+
+        <%- include body_header.ejs %> 
+		
+		<div class="row">
+			<div class="col-md-3" id="search_container">
+				<form action="/owner/store_pet" method="POST" id="main_form">
+					<div class="container">
+						<h4>Show results for</h4>
+						<h5>Type of your animal</h5>
+						<select name="type">
+						    <option value="Dog">Dog</option>
+						    <option value="Cat">Cat</option>
+						    <option value="Snake">Snake</option>
+						</select>
+						<h5>Distance range</h5>
+						<h5>From</h5>
+						<input type="number" placeholder="mile" name="distance_from">
+						<h5>To</h5>
+						<input type="number" placeholder="mile" name="distance_to">
+						<h5>Rating</h5>
+						<select name="rating">
+						    <option value="4">4 stars and up</option>
+						    <option value="3">3 stars and up</option>
+						    <option value="2">2 stars and up</option>
+						    <option value="1">1 stars and up</option>
+						</select>
+						<input type="submit" class="btn btn-primary" value="Submit">
+					</div>
+				</form>
+			</div>
+		</div>
+        
+    </body>
+</html>

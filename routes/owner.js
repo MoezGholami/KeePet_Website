@@ -161,4 +161,8 @@ router.get('/pet_photo/:id', (req, res, next) => {
     });
 });
 
+router.get('/search', (req, res, next) => {
+    res.render('search', {currentUser: req.user, title: 'Search'});
+})
+
 module.exports = router;
