@@ -106,7 +106,6 @@ app.get('/auth/google/callback',
                         } else {
                           console.log('new user profile created');
                           res.redirect('/owner');
-                            //req.login(newUser, () => {res.redirect('/owner');});
                         }
                     });
                 } else {

@@ -9,6 +9,7 @@ const middleware 	= require(appRoot + "/middleware/index");
 const User = require(appRoot + "/domain/models/user");
 const Pet = require(appRoot + "/domain/models/pet");
 const JobPost = require(appRoot + "/domain/models/jobPost");
+const async = require('async');
 var multer  = require('multer');
 var upload = multer();
 
@@ -37,9 +38,9 @@ router.get('/new_job_post', middleware.checkLoggedIn, (req, res, next) => {
     });
 });
 
-router.post('/new_job_post_upload', (req, res, next) => {
+router.post('/new_job_post_upload', middleware.checkLoggedIn, (req, res, next) => {
     console.log('moezgholami: job:');
-    console.log(req.body);
+    console.log(req.user);
     JobPost.store(req.user._id, req.body, function(error, instance){
         //TODO: show job after that
         console.log('saved successfully');
@@ -47,42 +48,26 @@ router.post('/new_job_post_upload', (req, res, next) => {
     });
 });
 
-var post = {
-    animals: [
-        {
-            type: 'Dog',
-            name: 'Joe',
-            breed: 'Husky',
-            sex: 'male',
-            age_month: '34'
-        },
-        {
-            type: 'Dog',
-            name: 'Jeni',
-            breed: 'Husky',
-            sex: 'female',
-            age_month: '30'
-        }
-    ],
-    from: '2017-11-06T22:31:54.466Z',
-    to: '2017-12-06T22:31:54.466Z',
-    description: 'some description',
-    username: 'helen',
-    email: 'cmk@gmail.com',
-    title: 'abc',
-    latitude: 30.2696,
-    longitude: -97.713,
-    options: [
-        'opt1', 'opt2', 'opt4'
-    ]
-};
-var posts = [];
-for(var i=0; i<5; i++)
-    posts.push(post);
 
 router.get('/all_job_posts', (req, res, next) => {
     res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify(posts));
+    JobPost.find().populate([{path: 'pets', model: 'Pet'}, {path: 'owner', model: 'User'}]).exec((error, posts) => {
+        async.map(posts, (post, done) => {
+            console.log(post);
+            var p = JSON.parse(JSON.stringify(post));
+            for(var i=0; i<post.pets.length; i++)
+            {
+                var url = post.pets[i].getPhotoUrl();
+                p.pets[i].photo = url;
+            }
+            done(null, p);
+        }, (error, posts)=>{res.send(JSON.stringify(posts));});
+    });
+});
+
+router.get('/remove_job_post/:id', (req, res, next) => {
+    res.setHeader('Content-Type', 'application/json');
+    JobPost.remove({_id: req.params.id}, (error)=> {res.send(error);});
 });
 
 router.post('/all_job_posts', middleware.checkLoggedIn, (req, res, next) => {
@@ -91,7 +76,7 @@ router.post('/all_job_posts', middleware.checkLoggedIn, (req, res, next) => {
 });
 
 
-router.get('/view_pet/:id', middleware.checkLoggedIn, (req, res, next) => {
+router.get('/view_pet/:id', (req, res, next) => {
     Pet.basePet.findById(req.params.id, (err, foundPet) => {
         if(err) {
             console.log(err);

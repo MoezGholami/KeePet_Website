@@ -3,6 +3,8 @@ const BasePet   = require(appRoot + '/domain/models/pet').basePet;
 var mongoose = require("mongoose");
 
 var UserSchema = new mongoose.Schema({
+	username: String,
+	password: String,
 	gid: String,
     email:  String,
     firstName: String,
