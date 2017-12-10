@@ -17,16 +17,11 @@
       <div class="container-fluid" id="bar">
         <ul class="nav navbar-nav">
           <li class="dropdown">
-            <a href="/owner" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">I'm a pet owner <span class="caret"></span></a>
+            <a href="/owner/search" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">I'm a pet keeper <span class="caret"></span></a>
             <ul class="dropdown-menu">
-              <li><a href="/owner/search">I'm a pet keeper</a></li>
+              <li><a href="/owner">I'm a pet owner</a></li>
             </ul>
           </li>
-          <li><a href="/owner/new_job_post">Post a Request</a></li>
-          <% if(currentUser) { %>
-            <li><a href="/owner/store_pet">Add a pet</a></li>
-            <li><a href="/owner/owned_pets">Your pets</a></li>
-          <% } %>
         </ul>
         <form class="navbar-form navbar-left" action="/owner" method="POST">
           <div class="form-group">

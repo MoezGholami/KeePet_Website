@@ -23,7 +23,21 @@ for(var i=0; i<16; i++)
 	});
 
 router.get('/', function(req, res, next) {
-	res.render('owner', {allKeeperPosts: allKeeperPosts, currentUser: req.user});
+    JobPost.find().populate([{path: 'pets', model: 'Pet'}, {path: 'owner', model: 'User'}]).exec((error, posts) => {
+        async.map(posts, (post, done) => {
+            console.log(post);
+            var p = JSON.parse(JSON.stringify(post));
+            for(var i=0; i<post.pets.length; i++)
+            {
+                var url = post.pets[i].getPhotoUrl();
+                p.pets[i].photo = url;
+            }
+            done(null, p);
+        }, (error, posts) => {
+            console.log(JSON.stringify(posts));
+            res.render('owner', {allKeeperPosts: posts, currentUser: req.user});
+        });
+    });
 });
 
 router.get('/new_job_post', middleware.checkLoggedIn, (req, res, next) => {
