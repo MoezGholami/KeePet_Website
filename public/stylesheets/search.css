@@ -1,3 +1,7 @@
+body {
+	font-family: sans-serif;
+}
+
 #subtitle {
 	margin-top: 33px;
 }
@@ -29,18 +33,31 @@ h1 {
 	margin-left: 8px;
 }
 
-#mainContent {
-	width: 50%;
+#search_container {
+	border-right: 1px solid rgb(204, 204, 204);
 }
 
-.listContent {
-	margin-top: 40px;
-	margin-bottom: 40px;
-<<<<<<< HEAD
-=======
+.need_left {
+	margin-left: 50px;
 }
 
-#submitButton {
+h3 {
 	margin-bottom: 40px;
->>>>>>> email
+}
+
+#animal_select {
+	margin-bottom: 25px;
+}
+
+#need_bottom {
+	margin-bottom: 25px;
+}
+
+#search_button {
+	margin-bottom: 100px;
+}
+
+#map {
+	width: 95%;
+	height: 530px;
 }

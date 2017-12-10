@@ -3,6 +3,10 @@ body {
 	background-size: cover;
 }
 
+body {
+	font-family: sans-serif;
+}
+
 #jumbo {
 	margin:  100px 100px;
 	background: rgba(252, 195, 25, 0.7); 

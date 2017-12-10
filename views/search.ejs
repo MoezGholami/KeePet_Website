@@ -2,7 +2,9 @@
 <html>
     <head>
         <%- include head_commons.ejs %>      
-        <link rel="stylesheet" href="../stylesheets/manage.css">
+        <link rel="stylesheet" href="../stylesheets/search.css">
+        <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
+		</script>
     </head>
     <body>
 
@@ -11,31 +13,36 @@
 		<div class="row">
 			<div class="col-md-3" id="search_container">
 				<form action="/owner/store_pet" method="POST" id="main_form">
-					<div class="container">
-						<h4>Show results for</h4>
-						<h5>Type of your animal</h5>
-						<select name="type">
+						<h3 class="need_left">Show results for</h3>
+						<h4 class="need_left">Type of your animal</h4>
+						<select name="type" class="need_left" id="animal_select">
 						    <option value="Dog">Dog</option>
 						    <option value="Cat">Cat</option>
 						    <option value="Snake">Snake</option>
 						</select>
-						<h5>Distance range</h5>
-						<h5>From</h5>
-						<input type="number" placeholder="mile" name="distance_from">
-						<h5>To</h5>
-						<input type="number" placeholder="mile" name="distance_to">
-						<h5>Rating</h5>
-						<select name="rating">
+						<h4 class="need_left">Distance range</h4>
+						<h5 class="need_left">From</h5>
+						<input type="number" placeholder="mile" name="distance_from" class="need_left">
+						<h5 class="need_left">To</h5>
+						<input type="number" placeholder="mile" name="distance_to" class="need_left" id="need_bottom">
+						<h4 class="need_left">Rating</h4>
+						<select name="rating" class="need_left">
 						    <option value="4">4 stars and up</option>
 						    <option value="3">3 stars and up</option>
 						    <option value="2">2 stars and up</option>
 						    <option value="1">1 stars and up</option>
 						</select>
-						<input type="submit" class="btn btn-primary" value="Submit">
-					</div>
+						<hr/>
+						<input type="submit" class="btn btn-primary need_left" value="Search" id="search_button">
 				</form>
 			</div>
+			<div class="col-md-9">
+				<div id="map"></div>
+			</div>
 		</div>
-        
+        <script async defer
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCy4sTSEo-D6AtHEwei75wag3a9MPabkbA&callback=initMap">
+		</script>
+		<script src="../javascripts/search.js"></script>
     </body>
 </html>
