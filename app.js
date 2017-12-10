@@ -105,6 +105,7 @@ app.get('/auth/google/callback',
                           console.log(err);
                         } else {
                           console.log('new user profile created');
+                          new mail(createdUser);
                           res.redirect('/owner');
                         }
                     });
