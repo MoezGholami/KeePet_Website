@@ -9,3 +9,6 @@ function initMap() {
 	  map: map
 	});
 }
+
+var a = <%= posts[0].latitude %>
+alert(a);

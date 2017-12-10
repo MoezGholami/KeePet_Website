@@ -16,28 +16,44 @@
     <%- include body_header.ejs %> 
 
     <div class="container">
-      <div class="row" style="display:flex; flex-wrap: wrap;">
-        <% allKeeperPosts.forEach(function(post) { %>
-          <div class="col-md-4 col-sm-6">
-            <div class="thumbnail">
-              <img src="http://localhost:3000<%= post.pets[0].photo %>" >
-              <div class="caption">
-                <% if(post.pets.length === 1) { %>
-                  <h4><%= post.pets[0].name %></h4>
-                <% } else if(post.pets.length === 2) { %>
-                  <h4><%= post.pets[0].name %> and <%= post.pets[1].name %></h4>
-                <% } else { %>
-                  <h4><%= post.pets[0].name %>, <%= post.pets[1].name %> and more..</h4>
-                <% } %>
-                <h5>From <%= post.start_date.substring(0, 10) %> to <%= post.end_date.substring(0, 10) %></h5>
-              </div>
-              <p>
-                  <a href="#" class="btn btn-success btn-sm moreinfo">More Info</a>
-              </p>
+        <% if(allKeeperPosts && allKeeperPosts.length != 0 ) { %>
+            <div class="row" style="display:flex; flex-wrap: wrap;">
+                <% allKeeperPosts.forEach(function(post) { %>
+                  <div class="col-md-4 col-sm-6">
+                    <div class="thumbnail">
+                      <img src="http://localhost:3000<%= post.pets[0].photo %>" >
+                      <div class="caption">
+                        <% if(post.pets.length === 1) { %>
+                          <h4><%= post.pets[0].name %></h4>
+                        <% } else if(post.pets.length === 2) { %>
+                          <h4><%= post.pets[0].name %> and <%= post.pets[1].name %></h4>
+                        <% } else { %>
+                          <h4><%= post.pets[0].name %>, <%= post.pets[1].name %> and more..</h4>
+                        <% } %>
+                        <h5>From <%= post.start_date.substring(0, 10) %> to <%= post.end_date.substring(0, 10) %></h5>
+                        <% if(post.addOns.length === 0) { %>
+                          <h5>No extra needs</h5>
+                        <% } else if(post.addOns.length === 1) { %>
+                          <h5>Needs <%= post.addOns[0] %></h5>
+                        <% } else if(post.addOns.length === 2) { %>
+                          <h5>Needs <%= post.addOns[0] %>, <%= post.addOns[1] %></h5>
+                        <% } else if(post.addOns.length === 3) { %>
+                          <h5>Needs <%= post.addOns[0] %>, <%= post.addOns[1] %>, <%= post.addOns[2] %></h5>
+                        <% } %>
+                      </div>
+                      <p>
+                          <a href="/owner/view_job_post/<%= post._id %>" class="btn btn-success btn-sm moreinfo">More Info</a>
+                          <a href="/owner/remove_job_post/<%= post._id %>" class="btn btn-danger btn-sm moreinfo">Delete post</a>
+                      </p>
+                    </div>
+                  </div>
+                <% }); %>
             </div>
-          </div>
-        <% }); %>
-      </div>
+        <% } else { %>
+            <div class="jumbotron" style="text-align: center">
+                You do not have any job posted, you may define some from <a href="/owner/new_job_post" >here.</a>
+            </div>
+        <% } %>
     </div>
 
 

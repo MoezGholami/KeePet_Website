@@ -54,10 +54,30 @@ h3 {
 }
 
 #search_button {
-	margin-bottom: 100px;
+	margin-bottom: 400px;
 }
 
 #map {
 	width: 95%;
 	height: 530px;
+}
+
+#dog_type {
+	margin-left: 50px;
+}
+
+#cat_type {
+	margin-left: 50px;
+}
+
+#snake_type {
+	margin-left: 50px;
+}
+
+#start_date {
+	margin-left: 50px;
+}
+
+#end_date {
+	margin-left: 50px;
 }
